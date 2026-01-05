@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # Motor de Base de Datos (PostgreSQL)
+  postgres-db:
+    image: postgres:16-alpine
+    container_name: fastreserve-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      # Aquí no definimos base de datos específica, las crearemos luego
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          memory: 300M  # Límite estricto de RAM
+
+  # Caché y Bloqueos en tiempo real (Redis)
+  redis-cache:
+    image: redis:7-alpine
+    container_name: fastreserve-redis
+    ports:
+      - "6379:6379"
+    deploy:
+      resources:
+        limits:
+          memory: 100M
+
+  # Mensajería entre servicios (RabbitMQ)
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: fastreserve-mq
+    ports:
+      - "5672:5672"   # Puerto de datos
+      - "15672:15672" # Puerto de interfaz web (Panel de control)
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+
+volumes:
+  postgres_data:
