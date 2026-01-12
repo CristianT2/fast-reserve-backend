@@ -18,6 +18,16 @@ services:
         limits:
           memory: 300M  # Límite estricto de RAM
 
+  event-db:
+    image: postgres:15
+    container_name: event-service-db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=event_db
+    ports:
+      - "5433:5432"
+
   # Caché y Bloqueos en tiempo real (Redis)
   redis-cache:
     image: redis:7-alpine
