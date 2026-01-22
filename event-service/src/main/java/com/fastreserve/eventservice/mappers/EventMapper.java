@@ -24,14 +24,23 @@ public class EventMapper {
 
         Event event = modelMapper.map(request, Event.class);
         event.setDateTime(LocalDateTime.parse(request.getDateTime()));
-
-        event.setStatus(EventStatus.SCHEDULED);
         event.setOrganizerEmail(organizerEmail);
+
+        if (event.getId() == null) {
+            event.setStatus(EventStatus.SCHEDULED);
+        }
 
         return event;
     }
 
     public EventRequest toDTO(Event event){
-        return modelMapper.map(event, EventRequest.class);
+        if (event == null) return null;
+        EventRequest dto = modelMapper.map(event, EventRequest.class);
+
+        if (event.getStatus() != null) {
+            dto.setStatus(event.getStatus().name());
+        }
+
+        return dto;
     }
 }

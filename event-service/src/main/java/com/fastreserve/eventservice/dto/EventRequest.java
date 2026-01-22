@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EventRequest {
 
+    private Long id;
+
     @NotBlank(message = "El título no puede estar vacío")
     @Size(min = 5, max = 100, message = "El título debe tener entre 5 y 100 caracteres")
     private String title;
@@ -32,4 +34,6 @@ public class EventRequest {
     @NotNull(message = "El precio es obligatorio")
     @PositiveOrZero(message = "El precio no puede ser negativo")
     private Double price;
+
+    private String status;
 }
