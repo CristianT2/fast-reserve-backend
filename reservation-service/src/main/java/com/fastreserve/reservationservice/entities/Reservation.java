@@ -24,6 +24,7 @@ public class Reservation {
     private Long eventId;
     private LocalDateTime reservationDate;
     private LocalDateTime expirationDate;
+    private Integer seatNumber;
     private BigDecimal totalPrice;
 
     @Enumerated(EnumType.STRING)

@@ -1,20 +1,24 @@
 package com.fastreserve.reservationservice.dto;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReservationRequest {
+public class ReservationResponse {
 
-    @NotNull(message = "El ID del evento es obligatorio")
+    private UUID id;
+    private Long userId;
     private Long eventId;
-
-    @NotNull(message = "El número de asiento es obligatorio")
     private Integer seatNumber;
+    private Double totalPrice;
+    private String status;
+    private LocalDateTime expirationDate;
 }
