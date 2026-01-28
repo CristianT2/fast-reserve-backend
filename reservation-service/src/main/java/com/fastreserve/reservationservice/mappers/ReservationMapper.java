@@ -25,6 +25,7 @@ public class ReservationMapper {
     public Reservation toEntity(ReservationRequest request, Long userId, BigDecimal price){
 
         if(request == null) return null;
+        //BigDecimal finalPrice = (price != null) ? BigDecimal.valueOf(price) : BigDecimal.ZERO;
 
         return Reservation.builder()
                 .userId(userId)
