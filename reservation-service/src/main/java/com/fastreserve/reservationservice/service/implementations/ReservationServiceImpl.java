@@ -1,6 +1,7 @@
 package com.fastreserve.reservationservice.service.implementations;
 
 import com.fastreserve.reservationservice.client.EventClient;
+import com.fastreserve.reservationservice.config.JwtService;
 import com.fastreserve.reservationservice.dto.EventDTO;
 import com.fastreserve.reservationservice.dto.ReservationRequest;
 import com.fastreserve.reservationservice.dto.ReservationResponse;
@@ -25,6 +26,7 @@ public class ReservationServiceImpl implements IReservationService {
     private final ReservationMapper reservationMapper;
     private final EventClient eventClient;
     private final StringRedisTemplate redisTemplate;
+    private final JwtService jwtService;
 
     @Override
     @Transactional
@@ -42,7 +44,8 @@ public class ReservationServiceImpl implements IReservationService {
             throw new RuntimeException("El asiento " + request.getSeatNumber() + " ya esta reservado por otra persona");
         }
 
-        Long userId = 1L;
+        String pureToken = token.startsWith("Bearer ") ? token.substring(7) : token;
+        Long userId = jwtService.extractUserId(pureToken);
         Reservation reservation = reservationMapper.toEntity(
                 request,
                 userId,
