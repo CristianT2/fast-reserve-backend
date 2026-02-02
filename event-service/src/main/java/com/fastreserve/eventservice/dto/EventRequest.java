@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -33,7 +35,7 @@ public class EventRequest {
 
     @NotNull(message = "El precio es obligatorio")
     @PositiveOrZero(message = "El precio no puede ser negativo")
-    private Double price;
+    private BigDecimal price;
 
     private String status;
 }

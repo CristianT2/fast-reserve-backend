@@ -40,6 +40,11 @@ public class EventController {
         return ResponseEntity.ok(eventService.getMyEvents(email));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<EventRequest> getEventById(@PathVariable Long id){
+        return ResponseEntity.ok(eventService.getEventById(id));
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<EventRequest> updateEvent(@PathVariable Long id, @Valid @RequestBody EventRequest eventRequest){
         log.info("REST request to update Event ID: {}", id);

@@ -28,6 +28,16 @@ services:
     ports:
       - "5433:5432"
 
+  booking-db:
+    image: postgres:16-alpine
+    container_name: booking-db
+    environment:
+      - POSTGRES_DB=booking_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5434:5432"
+
   # Caché y Bloqueos en tiempo real (Redis)
   redis-cache:
     image: redis:7-alpine

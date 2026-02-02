@@ -3,6 +3,7 @@ package com.fastreserve.eventservice.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,7 +34,7 @@ public class Event {
     private Integer capacity;
 
     @Column(nullable = false)
-    private Double price;
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     private EventStatus status;
