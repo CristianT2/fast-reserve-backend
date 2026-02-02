@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface ReservationRepository extends JpaRepository<Reservation, UUID> {
 
     List<Reservation> findByUserId(Long userId);
-    List<Reservation> findByStatusAndExpiracionDate(ReservationStatus status, LocalDateTime now);
+    List<Reservation> findByStatusAndExpirationDate(ReservationStatus status, LocalDateTime now);
     boolean existsByEventIdAndSeatNumberAndStatus(Long eventId, Integer seatNumber, ReservationStatus status);
     boolean existsByUserIdAndEventIdAndStatus(Long userId, Long EventId, ReservationStatus status);
 }

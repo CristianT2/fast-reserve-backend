@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +34,33 @@ public class AuthService {
                 .lastName(request.getLastName())
                 .build();
         userRepository.save(user);
-        var jwtToken = jwtService.generateToken(new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>()));
+
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("userId", user.getId());
+
+        var userDetails = new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                new ArrayList<>()
+        );
+
+        var jwtToken = jwtService.generateToken(extraClaims, userDetails);
         return AuthResponse.builder().token(jwtToken).username(user.getUsername()).email(user.getEmail()).build();
     }
 
     public AuthResponse login(LoginRequest request){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
         var user = userRepository.findByEmail(request.getEmail()).orElseThrow();
-        var jwtToken = jwtService.generateToken(new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>()));
+
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("userId", user.getId());
+
+        var userDetails = new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                new ArrayList<>()
+        );
+        var jwtToken = jwtService.generateToken(extraClaims, userDetails);
         return AuthResponse.builder().token(jwtToken).username(user.getUsername()).email(user.getEmail()).build();
     }
 }

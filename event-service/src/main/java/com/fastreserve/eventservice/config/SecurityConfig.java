@@ -22,7 +22,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/events").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/events/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

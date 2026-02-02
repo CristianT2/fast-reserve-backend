@@ -15,4 +15,6 @@ public interface IEventService {
     EventRequest updateEvent(Long id, EventRequest request, String organizerEmail);
 
     void cancelEvent(Long id, String organizerEmail);
+
+    EventRequest getEventById(Long id);
 }

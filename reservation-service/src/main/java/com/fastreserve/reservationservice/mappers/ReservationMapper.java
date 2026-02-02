@@ -46,7 +46,7 @@ public class ReservationMapper {
                 .userId(reservation.getUserId())
                 .eventId(reservation.getEventId())
                 .seatNumber(reservation.getSeatNumber())
-                .totalPrice(reservation.getTotalPrice().doubleValue())
+                .totalPrice(reservation.getTotalPrice())
                 .status(reservation.getStatus().name())
                 .expirationDate(reservation.getExpirationDate())
                 .build();

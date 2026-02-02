@@ -98,4 +98,11 @@ public class EventServiceImpl implements IEventService {
             throw new RuntimeException("Error al cancelar el evento");
         }
     }
+
+    @Override
+    public EventRequest getEventById(Long id) {
+        Event event = eventRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No se ha encontrado el evento con ID "+ id));
+        return eventMapper.toDTO(event);
+    }
 }

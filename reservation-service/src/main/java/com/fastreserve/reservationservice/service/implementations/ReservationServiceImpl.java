@@ -46,13 +46,15 @@ public class ReservationServiceImpl implements IReservationService {
 
         String pureToken = token.startsWith("Bearer ") ? token.substring(7) : token;
         Long userId = jwtService.extractUserId(pureToken);
+
         Reservation reservation = reservationMapper.toEntity(
                 request,
                 userId,
                 event.getPrice()
         );
 
-        return reservationMapper.toDTO(reservationRepository.save(reservation));
+        Reservation savedReservation = reservationRepository.save(reservation);
+        return reservationMapper.toDTO(savedReservation);
     }
 
     @Override
