@@ -26,6 +26,8 @@ public class Payment {
     @Column(nullable = false)
     private BigDecimal amount;
 
+    private String currency;
+
     private String paymentMethod;
 
     @Enumerated(EnumType.STRING)
