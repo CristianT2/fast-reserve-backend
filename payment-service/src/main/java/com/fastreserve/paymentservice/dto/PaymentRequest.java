@@ -15,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PaynentRequest {
+public class PaymentRequest {
 
     @NotNull(message = "El ID de la reserva es obligatorio")
     private UUID reservationId;
