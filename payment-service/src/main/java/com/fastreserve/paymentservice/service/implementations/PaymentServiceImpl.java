@@ -1,6 +1,7 @@
 package com.fastreserve.paymentservice.service.implementations;
 
 import com.fastreserve.paymentservice.client.ReservationClient;
+import com.fastreserve.paymentservice.config.RabbitMQConfig;
 import com.fastreserve.paymentservice.dto.PaymentRequest;
 import com.fastreserve.paymentservice.dto.PaymentResponse;
 import com.fastreserve.paymentservice.dto.ReservationDTO;
@@ -12,6 +13,7 @@ import com.fastreserve.paymentservice.service.interfaces.IPaymentService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,6 +28,7 @@ public class PaymentServiceImpl implements IPaymentService {
     private final PaymentRepository paymentRepository;
     private final PaymentMapper paymentMapper;
     private final ReservationClient reservationClient;
+    private final RabbitTemplate rabbitTemplate;
 
     @Override
     @Transactional
@@ -49,6 +52,17 @@ public class PaymentServiceImpl implements IPaymentService {
 
         Payment savedPayment = paymentRepository.save(payment);
         log.info("Pago procesado exitosamente con ID: {}", savedPayment.getId());
+
+        try {
+            rabbitTemplate.convertAndSend(
+                    RabbitMQConfig.EXCHANGE,
+                    RabbitMQConfig.ROUTING_KEY,
+                    savedPayment.getReservationId()
+            );
+            log.info("Mensaje enviado a RabbitMQ para confirmar reserva: {}", savedPayment.getReservationId());
+        } catch (Exception e) {
+            log.error("Error al enviar mensaje a RabbitMQ: {}", e.getMessage());
+        }
 
         return paymentMapper.toDTO(savedPayment);
     }

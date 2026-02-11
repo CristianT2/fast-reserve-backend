@@ -11,4 +11,5 @@ public interface IReservationService {
     ReservationResponse createReservation(ReservationRequest request, String token);
     List<ReservationResponse> getReservationsByUserId(Long userId);
     ReservationResponse getReservationById(UUID id);
+    void confirmReservationPayment(UUID reservationId);
 }
