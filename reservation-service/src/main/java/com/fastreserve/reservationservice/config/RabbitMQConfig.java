@@ -2,10 +2,10 @@ package com.fastreserve.reservationservice.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistrar;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.messaging.handler.annotation.support.DefaultMessageHandlerMethodFactory;
 
 @Configuration
 public class RabbitMQConfig {
@@ -23,5 +23,10 @@ public class RabbitMQConfig {
         mapper.registerModule(new com.fasterxml.jackson.datatype.jsr310.JavaTimeModule());
         mapper.disable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         return mapper;
+    }
+
+    @Bean
+    public MessageConverter jsonMessageConverter(ObjectMapper objectMapper) {
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
 }
