@@ -6,11 +6,13 @@ import com.fastreserve.reservationservice.dto.EventDTO;
 import com.fastreserve.reservationservice.dto.ReservationRequest;
 import com.fastreserve.reservationservice.dto.ReservationResponse;
 import com.fastreserve.reservationservice.entities.Reservation;
+import com.fastreserve.reservationservice.entities.ReservationStatus;
 import com.fastreserve.reservationservice.mappers.ReservationMapper;
 import com.fastreserve.reservationservice.repository.ReservationRepository;
 import com.fastreserve.reservationservice.service.interfaces.IReservationService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ReservationServiceImpl implements IReservationService {
 
     private final ReservationRepository reservationRepository;
@@ -69,5 +72,16 @@ public class ReservationServiceImpl implements IReservationService {
         return reservationRepository.findById(id)
                 .map(reservationMapper::toDTO)
                 .orElseThrow(() -> new RuntimeException("Reserva no encontrada con ID: " + id));
+    }
+
+    @Override
+    @Transactional
+    public void confirmReservationPayment(UUID reservationId) {
+        Reservation reservation = reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new RuntimeException("Reserva no encontrada"));
+
+        reservation.setStatus(ReservationStatus.CONFIRMED);
+        reservationRepository.save(reservation);
+        log.info("Reserva {} marcada como CONFIRMADA tras recibir pago.", reservationId);
     }
 }
