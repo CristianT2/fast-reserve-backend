@@ -10,6 +10,7 @@
         <option value="$PROJECT_DIR$/fast-reserve-back/pom.xml" />
         <option value="$PROJECT_DIR$/reservation-service/pom.xml" />
         <option value="$PROJECT_DIR$/payment-service/pom.xml" />
+        <option value="$PROJECT_DIR$/gateway-service/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
