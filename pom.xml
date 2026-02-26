@@ -20,6 +20,10 @@
     <modules>
         <module>auth-service</module>
         <module>event-service</module>
+        <module>reservation-service</module>
+        <module>payment-service</module>
+        <module>gateway-service</module>
+        <module>eureka-service</module>
     </modules>
 
     <properties>
