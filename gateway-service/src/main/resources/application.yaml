@@ -6,33 +6,25 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      discovery:
-        locator:
-          enabled: true # Permite encontrar servicios por su nombre en Eureka
-      routes:
-        # --- AUTH SERVICE ---
-        - id: auth-service
-          uri: lb://auth-service
-          predicates:
-            - Path=/api/auth/**
-
-        # --- EVENT SERVICE ---
-        - id: event-service
-          uri: lb://event-service
-          predicates:
-            - Path=/api/events/**
-
-        # --- RESERVATION SERVICE ---
-        - id: reservation-service
-          uri: lb://reservation-service # 'lb://' significa Load Balanced via Eureka
-          predicates:
-            - Path=/api/reservations/**
-
-        # --- PAYMENT SERVICE ---
-        - id: payment-service
-          uri: lb://payment-service
-          predicates:
-            - Path=/api/payments/**
+      server:
+        webmvc:
+          routes:
+            - id: auth-service
+              uri: http://localhost:8081
+              predicates:
+              - Path=/api/auth/**
+            - id: event-service
+              uri: http://localhost:8082
+              predicates:
+                - Path=/api/events/**
+            - id: reservation-service
+              uri: http://localhost:8083
+              predicates:
+                - Path=/api/reservations/**
+            - id: payment-service
+              uri: http://localhost:8084
+              predicates:
+                - Path=/api/payments/**
 
 eureka:
   client:
@@ -40,7 +32,7 @@ eureka:
       defaultZone: http://localhost:8761/eureka/ # URL donde vivirá el Eureka
     register-with-eureka: true
     fetch-registry: true
-  instance:
-    prefer-ip-address: true
+#  instance:
+#    prefer-ip-address: true
 
 

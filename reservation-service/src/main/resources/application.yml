@@ -2,6 +2,9 @@ server:
   port: 8083
 
 spring:
+  application:
+    name: reservation-service
+
   datasource:
     url: jdbc:postgresql://localhost:5434/booking_db
     username: admin
