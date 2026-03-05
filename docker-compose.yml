@@ -18,6 +18,26 @@ services:
         limits:
           memory: 300M  # Límite estricto de RAM
 
+  event-db:
+    image: postgres:15
+    container_name: event-service-db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=event_db
+    ports:
+      - "5433:5432"
+
+  booking-db:
+    image: postgres:16-alpine
+    container_name: booking-db
+    environment:
+      - POSTGRES_DB=booking_db
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+    ports:
+      - "5434:5432"
+
   # Caché y Bloqueos en tiempo real (Redis)
   redis-cache:
     image: redis:7-alpine
@@ -28,6 +48,16 @@ services:
       resources:
         limits:
           memory: 100M
+
+  payment-db:
+    image: postgres:15
+    container_name: payment-db
+    environment:
+      - POSTGRES_DB=payment_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=root
+    ports:
+      - "5435:5432"
 
   # Mensajería entre servicios (RabbitMQ)
   rabbitmq:
